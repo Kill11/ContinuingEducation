@@ -32,7 +32,7 @@ public class Chrome {
         if(isAvailable(videoPage.questionWindow)){
             logger.info("发现答题弹窗");
             logger.info("尝试答题，回答A");
-            videoPage.A.click();
+            try{videoPage.A.click();}catch (NoSuchElementException e){logger.info("没找到选项");}
             try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
             videoPage.answerButton.click();
             try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
