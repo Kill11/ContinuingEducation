@@ -24,13 +24,13 @@ public class VideoPage {
     @FindBy(xpath = "//span[@value=\"D\"]")
     WebElement D;
 
-    @FindBy(xpath = "//div[@class=\"lister_pop_box\"]/div[@class=\"question\"]/div[@class=\"pop_box_foot clearfix\"]/span[@class=\"box-sure\"]")
+    @FindBy(xpath = "//*[@id=\"player\"]/div[8]/div/div[2]/div/div[3]/span")
     WebElement answerButton;
 
-    @FindBy(xpath = "//div[@class=\"lister_pop_box pop-tip-panel\"]/div[@class=\"question\"]")
+    @FindBy(xpath = "//*[@id=\"player\"]/div[8]/div[2]/div[2]")
     WebElement failWindow;
 
-    @FindBy(xpath = "//div[@class=\"lister_pop_box pop-tip-panel\"]/div[@class=\"question\"]/div[@class=\"pop_box_foot clearfix\"]/span[@class=\"box-sure\"]")
+    @FindBy(xpath = "//*[@id=\"player\"]/div[8]/div[2]/div[2]/div/div[2]/span")
     WebElement failButton;
 
     public VideoPage(WebDriver driver){

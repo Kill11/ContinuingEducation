@@ -44,38 +44,30 @@ public class Chrome {
             try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
             logger.info("尝试获取正确回答");
             String anstext = videoPage.correctAnswer.getText();
-            char ans = getans(anstext);
+            String ans = getans2(anstext);
             logger.info("正确回答为"+ans+",开始填充正确回答");
-            switch (ans){
-                case 'A':{
-                    videoPage.A.click();
-                    try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-                    videoPage.answerButton.click();
-                    try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-                    break;
-                }
-                case 'B':{
-                    videoPage.B.click();
-                    try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-                    videoPage.answerButton.click();
-                    try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-                    break;
-                }
-                case 'C':{
-                    videoPage.C.click();
-                    try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-                    videoPage.answerButton.click();
-                    try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-                    break;
-                }
-                case 'D':{
-                    videoPage.D.click();
-                    try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-                    videoPage.answerButton.click();
-                    try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-                    break;
-                }
+            //先把之前的A给取消掉
+            videoPage.A.click();
+            try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+            if(ans.contains("A")){
+                videoPage.A.click();
+                try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
             }
+            if(ans.contains("B")){
+                videoPage.B.click();
+                try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+            }
+            if(ans.contains("C")){
+                videoPage.C.click();
+                try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+            }
+            if(ans.contains("D")){
+                videoPage.D.click();
+                try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+            }
+            videoPage.answerButton.click();
+            try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+
             logger.info("二次回答成功");
         }
     }
@@ -104,5 +96,15 @@ public class Chrome {
         }
         char ans = str.toCharArray()[0];
         return ans;
+    }
+
+    public static String getans2(String anstext) {
+        Pattern pattern = Pattern.compile("正确答案：(.*)");
+        Matcher m = pattern.matcher(anstext);
+        String str="";
+        if (m.find()) {
+            str = m.group(1);
+        }
+        return str;
     }
 }
