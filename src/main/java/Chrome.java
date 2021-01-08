@@ -70,6 +70,10 @@ public class Chrome {
 
             logger.info("二次回答成功");
         }
+
+        if(isAvailable(videoPage.failPlay)){
+            refresh();
+        }
     }
 
     Boolean isAvailable(WebElement webElement){

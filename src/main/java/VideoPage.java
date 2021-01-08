@@ -33,6 +33,9 @@ public class VideoPage {
     @FindBy(xpath = "//*[@id=\"player\"]/div[8]/div[2]/div[2]/div/div[2]/span")
     WebElement failButton;
 
+    @FindBy(xpath = "//*[@id=\"player\"]/div[6]/div")
+    WebElement failPlay;
+
     public VideoPage(WebDriver driver){
     this.driver = driver;
         PageFactory.initElements(driver,this);
