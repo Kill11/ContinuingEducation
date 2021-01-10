@@ -12,6 +12,9 @@ public class VideoPage {
     @FindBy(xpath = "//*[@id=\"answer\"]")
     WebElement correctAnswer;
 
+    @FindBy(xpath = "//*[@id=\"questionId\"]")
+    WebElement questionType;
+
     @FindBy(xpath = "//span[@value=\"A\"]")
     WebElement A;
 
@@ -23,6 +26,12 @@ public class VideoPage {
 
     @FindBy(xpath = "//span[@value=\"D\"]")
     WebElement D;
+
+    @FindBy(xpath = "//span[@value=\"Y\"]")
+    WebElement Y;
+
+    @FindBy(xpath = "//span[@value=\"N\"]")
+    WebElement N;
 
     @FindBy(xpath = "//*[@id=\"player\"]/div[8]/div/div[2]/div/div[3]/span")
     WebElement answerButton;

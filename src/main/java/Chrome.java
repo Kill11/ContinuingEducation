@@ -14,7 +14,7 @@ public class Chrome {
     public VideoPage videoPage;
     public static Logger logger = Logger.getLogger(Chrome.class);
 
-    Chrome(){
+    Chrome() {
 //        System.setProperty("webdriver.chrome.driver","C:\\chromedriver.exe");
         driver = new ChromeDriver();
         videoPage = new VideoPage(driver);
@@ -24,68 +24,43 @@ public class Chrome {
         driver.get("http://jxjy.czt.zj.gov.cn/front/jxjy.html");
     }
 
-    public void refresh(){
+    public void refresh() {
         driver.navigate().refresh();
     }
 
     public void jianting() {
-        if(isAvailable(videoPage.questionWindow)){
+        if (isAvailable(videoPage.questionWindow)) {
             logger.info("发现答题弹窗");
-            logger.info("尝试答题，回答A");
-            try{videoPage.A.click();}catch (NoSuchElementException e){logger.info("没找到选项");}
-            try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-            videoPage.answerButton.click();
-            try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-//            driver.navigate().refresh();
-        }
-        if(isAvailable(videoPage.failWindow)){
-            logger.info("回答失败");
-            videoPage.failButton.click();
-            try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-            logger.info("尝试获取正确回答");
-            String anstext = videoPage.correctAnswer.getText();
-            String ans = getans2(anstext);
-            logger.info("正确回答为"+ans+",开始填充正确回答");
-            //先把之前的A给取消掉
-            videoPage.A.click();
-            try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-            if(ans.contains("A")){
-                videoPage.A.click();
-                try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+            String qesType = "";
+            try{
+                qesType = videoPage.questionType.getText();
+            }catch (Exception e){
+                logger.info("没有题目类型");
+                videoPage.answerButton.click();
+                return;
             }
-            if(ans.contains("B")){
-                videoPage.B.click();
-                try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
+            if ("判断题".equals(videoPage.questionType.getText())) {
+                panDuanTi();
+            } else {
+                xuanZeTi();
             }
-            if(ans.contains("C")){
-                videoPage.C.click();
-                try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-            }
-            if(ans.contains("D")){
-                videoPage.D.click();
-                try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-            }
-            videoPage.answerButton.click();
-            try { sleep(200); } catch (InterruptedException e) { e.printStackTrace(); }
-
-            logger.info("二次回答成功");
         }
 
-        if(isAvailable(videoPage.failPlay)){
+        if (isAvailable(videoPage.failPlay)) {
             refresh();
         }
     }
 
-    Boolean isAvailable(WebElement webElement){
+    Boolean isAvailable(WebElement webElement) {
         try {
             if (webElement.isDisplayed()) {
 //                System.out.println("发现答题弹窗");
                 return true;
-            }else {
+            } else {
 //                System.out.println("找到了，没看到");
                 return false;
             }
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
 //            System.out.println("没找到");
             return false;
         }
@@ -94,7 +69,7 @@ public class Chrome {
     public static char getans(String anstext) {
         Pattern pattern = Pattern.compile("正确答案：(.*)");
         Matcher m = pattern.matcher(anstext);
-        String str="";
+        String str = "";
         if (m.find()) {
             str = m.group(1);
         }
@@ -105,10 +80,152 @@ public class Chrome {
     public static String getans2(String anstext) {
         Pattern pattern = Pattern.compile("正确答案：(.*)");
         Matcher m = pattern.matcher(anstext);
-        String str="";
+        String str = "";
         if (m.find()) {
             str = m.group(1);
         }
         return str;
+    }
+
+    public void xuanZeTi(){
+        logger.info("尝试答题，回答A");
+        try {
+            videoPage.A.click();
+        } catch (NoSuchElementException e) {
+            logger.info("没找到选项");
+        }
+        try {
+            sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        videoPage.answerButton.click();
+        try {
+            sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//            driver.navigate().refresh();
+
+        if (isAvailable(videoPage.failWindow)) {
+            logger.info("回答失败");
+            videoPage.failButton.click();
+            try {
+                sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            logger.info("尝试获取正确回答");
+            String anstext = videoPage.correctAnswer.getText();
+            String ans = getans2(anstext);
+            logger.info("正确回答为" + ans + ",开始填充正确回答");
+            //先把之前的A给取消掉
+            videoPage.A.click();
+            try {
+                sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (ans.contains("A")) {
+                videoPage.A.click();
+                try {
+                    sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ans.contains("B")) {
+                videoPage.B.click();
+                try {
+                    sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ans.contains("C")) {
+                videoPage.C.click();
+                try {
+                    sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ans.contains("D")) {
+                videoPage.D.click();
+                try {
+                    sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            videoPage.answerButton.click();
+            try {
+                sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            logger.info("二次回答成功");
+        }
+    }
+
+    public void panDuanTi(){
+        logger.info("尝试答题，回答Y");
+        try {
+            videoPage.Y.click();
+        } catch (NoSuchElementException e) {
+            logger.info("没找到选项");
+        }
+        try {
+            sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        videoPage.answerButton.click();
+        try {
+            sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//            driver.navigate().refresh();
+
+        if (isAvailable(videoPage.failWindow)) {
+            logger.info("回答失败");
+            videoPage.failButton.click();
+            try {
+                sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            logger.info("尝试获取正确回答");
+            String anstext = videoPage.correctAnswer.getText();
+            String ans = getans2(anstext);
+            logger.info("正确回答为" + ans + ",开始填充正确回答");
+
+            if (ans.contains("对")) {
+                videoPage.Y.click();
+                try {
+                    sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ans.contains("错")) {
+                videoPage.N.click();
+                try {
+                    sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            videoPage.answerButton.click();
+            try {
+                sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            logger.info("二次回答成功");
+        }
     }
 }
